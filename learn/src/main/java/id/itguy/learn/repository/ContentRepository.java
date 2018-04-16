@@ -7,5 +7,5 @@ import id.itguy.learn.model.Content;
 
 @RepositoryRestResource(collectionResourceRel = "content", path = "content")
 public interface ContentRepository extends MongoRepository<Content, String>{
-
+	
 }

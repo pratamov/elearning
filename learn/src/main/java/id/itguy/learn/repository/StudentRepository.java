@@ -7,5 +7,7 @@ import id.itguy.learn.model.Student;
 
 @RepositoryRestResource(collectionResourceRel = "student", path = "student")
 public interface StudentRepository extends MongoRepository<Student, String>{
-
+	
+	public Student findById(String id);
+	
 }

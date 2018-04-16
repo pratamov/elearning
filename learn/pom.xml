@@ -5,8 +5,8 @@
 
 	<groupId>id.itguy</groupId>
 	<artifactId>learn</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>0.0.1</version>
+	<packaging>war</packaging>
 
 	<name>learn</name>
 	<description>Demo project for Spring Boot</description>
@@ -15,7 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.12.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 
 	<properties>
@@ -23,6 +23,11 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<keycloak.version>3.4.2.Final</keycloak.version>
+		<springfox.version>2.8.0</springfox.version>
+		<plugin.wildfly.hostname>localhost</plugin.wildfly.hostname>
+		<plugin.wildfly.port>9990</plugin.wildfly.port>
+		<plugin.wildfly.username></plugin.wildfly.username>
+		<plugin.wildfly.password></plugin.wildfly.password>
 	</properties>
 
 	<dependencies>
@@ -43,8 +48,12 @@
 			<artifactId>keycloak-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>joda-time</groupId>
-		    <artifactId>joda-time</artifactId>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -55,6 +64,21 @@
 			<groupId>org.springframework.restdocs</groupId>
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-data-rest</artifactId>
+			<version>${springfox.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -71,10 +95,27 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>learn</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.2.1.Final</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<hostname>${plugin.wildfly.hostname}</hostname>
+					<port>${plugin.wildfly.port}</port>
+					<username>${plugin.wildfly.username}</username>
+					<password>${plugin.wildfly.password}</password>
+					<force>true</force>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
